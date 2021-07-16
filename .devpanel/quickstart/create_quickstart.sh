@@ -56,7 +56,7 @@ generate_quickstart_url()
 WORK_DIR=$APP_ROOT
 TMP_DIR=/tmp/devpanel/quickstart
 DUMPS_DIR=$TMP_DIR/dumps
-STATIC_FILES_DIR=$WEB_ROOT/$(drush php-eval "echo \Drupal\Core\StreamWrapper\PublicStream::basePath();") # Drupal 8 ways
+STATIC_FILES_DIR=$WEB_ROOT/files
 
 mkdir -p $DUMPS_DIR
 #== Install needed tool
@@ -66,10 +66,10 @@ if [[ ! -n $(which yq) ]]; then
     tar xz && sudo mv yq_linux_amd64 /usr/bin/yq
 fi
 
-# Step 1 - Compress drupal database
+# Step 1 - Compress database
 cd $WORK_DIR
 echo -e "> Export database using drupal/drush"
-drush cr --quiet
+drush cc all --quiet
 drush sql-dump > $TMP_DIR/$DB_NAME.sql
 
 echo -e "> Compress database"
