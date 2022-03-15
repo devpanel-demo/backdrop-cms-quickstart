@@ -12,7 +12,7 @@ spec:
         value: master
       - name: DP_APP_NAME
         value: master-beta-flecmoq
-      image: devpanel/php-fpm:7.4
+      image: devpanel/php:7.4-fpm
       name: php
       ports:
       - containerPort: 9000
@@ -35,7 +35,7 @@ spec:
         value: master
       - name: DP_APP_NAME
         value: master-beta-flecmoq
-      image: wodby/nginx:latest
+      image: devpanel/nginx:latest
       name: nginx
       ports:
       - containerPort: 80
