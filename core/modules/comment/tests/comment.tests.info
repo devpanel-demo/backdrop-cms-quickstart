@@ -105,3 +105,8 @@ name = 'Comment author deletion'
 description = 'Test the behavior of comments when the comment author is deleted.'
 group = Comment
 file = comment.test
+
+; Added by Backdrop CMS packaging script on 2022-03-02
+project = backdrop
+version = 1.21.3
+timestamp = 1646264453
