@@ -12,6 +12,10 @@ spec:
         value: master
       - name: DP_APP_NAME
         value: master-beta-flecmoq
+      - name: DP_GIT_BRANCH
+        value: master
+      - name: DP_APP_NAME
+        value: master-beta-flecmoq
       image: devpanel/php:7.4-fpm
       name: php
       ports:
@@ -31,6 +35,10 @@ spec:
         value: 10.0.0.0/16
       - name: NGINX_SERVER_EXTRA_CONF_FILEPATH
         value: /var/www/html/.devpanel/nginx-locations.conf
+      - name: DP_GIT_BRANCH
+        value: master
+      - name: DP_APP_NAME
+        value: master-beta-flecmoq
       - name: DP_GIT_BRANCH
         value: master
       - name: DP_APP_NAME
