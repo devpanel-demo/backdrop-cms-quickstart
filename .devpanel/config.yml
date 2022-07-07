@@ -22,8 +22,12 @@ spec:
       - containerPort: 9000
         name: fastcgi
       resources:
-        limits: {}
-        requests: {}
+        limits:
+          cpu: 100m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 256Mi
     - env:
       - name: NGINX_SERVER_ROOT
         value: /var/www/html/
@@ -51,8 +55,12 @@ spec:
       - containerPort: 443
         name: https
       resources:
-        limits: {}
-        requests: {}
+        limits:
+          cpu: 50m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 128Mi
   servicePort: 80
   sharedDir:
     path: /var/www/html
