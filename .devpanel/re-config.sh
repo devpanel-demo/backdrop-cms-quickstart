@@ -68,4 +68,4 @@ fi
 
 #== Update permission
 sudo chown -R www:www-data $APP_ROOT
-sudo chown -R www-data:www-data STATIC_FILES_PATH
+sudo chown -R www-data:www-data $STATIC_FILES_PATH
