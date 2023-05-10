@@ -24,7 +24,7 @@ echo -e "-------------------------------\n"
 WORK_DIR=$APP_ROOT
 TMP_DIR=/tmp/devpanel/quickstart
 DUMPS_DIR=$TMP_DIR/dumps
-STATIC_FILES_DIR=$WEB_ROOT/files
+STATIC_FILES_DIR=$APP_ROOT/files
 
 mkdir -p $DUMPS_DIR
 #== Install needed tool
@@ -37,10 +37,8 @@ fi
 # Step 1 - Compress drupal database
 cd $WORK_DIR
 echo -e "> Export database using drupal/drush"
-drush cr --quiet
-drush sql-dump > $TMP_DIR/$DB_NAME.sql
-# Fix mysqldump permision
-sed -i 's/\DEFINER\=`[^`]*`@`[^`]*`//g' $TMP_DIR/$DB_NAME.sql
+drush cc all --quiet
+drush sql-dump > $TMP_DIR/$DB_NAME.sql --extra=--no-tablespaces
 
 echo -e "> Compress database"
 tar czf $DUMPS_DIR/db.sql.tgz -C $TMP_DIR $DB_NAME.sql
@@ -52,14 +50,14 @@ mv $DUMPS_DIR/db.sql.tgz $APP_ROOT/.devpanel/dumps/db.sql.tgz
 # Step 2 - Compress static files
 cd $WORK_DIR
 echo -e "> Compress static files"
-echo czf $DUMPS_DIR/files.tgz -C $STATIC_FILES_DIR .
-sudo tar czf $DUMPS_DIR/files.tgz -C $STATIC_FILES_DIR .
+tar czf $DUMPS_DIR/files.tgz -C $STATIC_FILES_DIR .
 
 echo -e "> Store files.tgz to $APP_ROOT/.devpanel/dumps"
 mkdir -p $APP_ROOT/.devpanel/dumps
 mv $DUMPS_DIR/files.tgz $APP_ROOT/.devpanel/dumps/files.tgz
 
 # Step 3 - Commit dumps files to git
+
 if [[ -f "$APP_ROOT/.devpanel/dumps/files.tgz" ]]; then
     git add $APP_ROOT/.devpanel/dumps/files.tgz &> /dev/null
 fi
@@ -68,11 +66,15 @@ if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.tgz" ]]; then
     git add $APP_ROOT/.devpanel/dumps/db.sql.tgz &> /dev/null
 fi
 
+if [[ -f "$APP_ROOT/.devpanel/quickstart/quickstart.url" ]]; then
+    git add $APP_ROOT/.devpanel/quickstart/quickstart.url &> /dev/null
+fi
+
 export GIT_AUTHOR_NAME="DevPanel Bot"
 export GIT_AUTHOR_EMAIL="admin@devpanel.com"
 export GIT_COMMITTER_NAME="DevPanel Bot"
 export GIT_COMMITTER_EMAIL="admin@devpanel.com"
 
-# git commit -m "Generate quickstart" &> /dev/null
-
-# git push origin $GIT_BRANCH &> /dev/null
+git commit -m "Generate quickstart" &> /dev/null
+#
+git push origin $GIT_BRANCH &> /dev/null

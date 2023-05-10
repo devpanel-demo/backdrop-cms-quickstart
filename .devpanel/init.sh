@@ -19,19 +19,44 @@
 if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
 fi
+STATIC_FILES_PATH="$WEB_ROOT/files"
+SETTINGS_FILES_PATH="$WEB_ROOT/settings.php"
+
 
 #== Init Backdrop
 if [[ ! -d "$APP_ROOT/core" ]]; then
+  echo "Initial backdrop ..."
   cd /tmp && curl -sLo backdrop.tar.gz https://github.com/backdrop/backdrop/tarball/1.24.1
   tar xzf backdrop.tar.gz -C $APP_ROOT --strip-components=1
 fi
 
-#== Site Install Drush
+
+# #Securing file permissions and ownership
+# #https://www.drupal.org/docs/security-in-drupal/securing-file-permissions-and-ownership
+[[ ! -d $STATIC_FILES_PATH ]] && sudo mkdir --mode 775 $STATIC_FILES_PATH || sudo chmod 775 -R $STATIC_FILES_PATH
+sudo chown -R www-data:www-data $STATIC_FILES_PATH
+
+#== Create settings files
+if [[ ! -f "$SETTINGS_FILES_PATH" ]]; then
+  echo "Create settings file ..."
+  sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.php $SETTINGS_FILES_PATH
+fi
+
+#== Generate hash salt
+echo 'Generate hash salt ...'
+DRUPAL_HASH_SALT=$(openssl rand -hex 32);
+sudo sed -i -e "s/^\$settings\['hash_salt'\].*/\$settings\['hash_salt'\] = '$DRUPAL_HASH_SALT';/g" $SETTINGS_FILES_PATH
+
+
+#== Drush Site Install
 if [[ $(drush status bootstrap) == '' ]]; then
+  echo "Site installing ..."
   cd $APP_ROOT
   drush si --account-name=devpanel --account-pass=devpanel --db-url=mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME -y
   drush cc all
 fi
+
 #== Update permission
+echo "Update permision ..."
 sudo chown -R www:www-data $APP_ROOT
 sudo chown -R www-data:www-data $STATIC_FILES_PATH
