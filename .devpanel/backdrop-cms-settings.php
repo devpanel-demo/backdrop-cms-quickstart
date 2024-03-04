@@ -12,7 +12,16 @@
  * advanced database documentation at
  * https://api.backdropcms.org/database-configuration
  */
-$database = 'mysql://' . getenv('DB_USER') . ':' . getenv('DB_PASSWORD') . '@' . getenv('DB_HOST') . '/' . getenv('DB_NAME');
+
+$databases['default']['default'] = array(
+  'driver' => getenv('DB_DRIVER'),
+  'database' =>  getenv('DB_NAME'),
+  'username' => getenv('DB_USER') ,
+  'password' => getenv('DB_PASSWORD'),
+  'host' => getenv('DB_HOST'),
+  'port' => getenv('DB_PORT')
+);
+
 $database_prefix = '';
 
 /**

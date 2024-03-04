@@ -76,5 +76,5 @@ export GIT_COMMITTER_NAME="DevPanel Bot"
 export GIT_COMMITTER_EMAIL="admin@devpanel.com"
 
 git commit -m "Generate quickstart" &> /dev/null
-#
+
 git push origin $GIT_BRANCH &> /dev/null

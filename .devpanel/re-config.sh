@@ -36,7 +36,7 @@ if [[ $(drush status bootstrap) == '' ]]; then
     echo  'Extract mysql files ...'
     SQLFILE=$(tar tzf $APP_ROOT/.devpanel/dumps/db.sql.tgz)
     tar xzf "$APP_ROOT/.devpanel/dumps/db.sql.tgz" -C /tmp/
-    mysql -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME < /tmp/$SQLFILE
+    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < /tmp/$SQLFILE
     rm /tmp/$SQLFILE
   fi
 fi
