@@ -52,7 +52,7 @@ sudo sed -i -e "s/^\$settings\['hash_salt'\].*/\$settings\['hash_salt'\] = '$DRU
 if [[ $(drush status bootstrap) == '' ]]; then
   echo "Site installing ..."
   cd $APP_ROOT
-  drush si --account-name=devpanel --account-pass=devpanel --db-url=mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME -y
+  drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" -y
   drush cc all
 fi
 
