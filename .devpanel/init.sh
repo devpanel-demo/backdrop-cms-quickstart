@@ -34,7 +34,7 @@ fi
 # #Securing file permissions and ownership
 # #https://www.drupal.org/docs/security-in-drupal/securing-file-permissions-and-ownership
 [[ ! -d $STATIC_FILES_PATH ]] && sudo mkdir --mode 775 $STATIC_FILES_PATH || sudo chmod 775 -R $STATIC_FILES_PATH
-sudo chown -R www-data:www-data $STATIC_FILES_PATH
+sudo chown -R www:www $STATIC_FILES_PATH
 
 #== Create settings files
 if [[ ! -f "$SETTINGS_FILES_PATH" ]]; then
@@ -55,3 +55,8 @@ if [[ $(drush status bootstrap) == '' ]]; then
   drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" -y
   drush cc all
 fi
+
+#== Update permission
+echo "Update permision ..."
+sudo chown -R www:www $APP_ROOT
+sudo chown -R www:www $STATIC_FILES_PATH
