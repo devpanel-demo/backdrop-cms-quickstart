@@ -63,8 +63,3 @@ if [[ $CONFIG_DIR != '' ]]; then
   sed -i -e "s/^\$config_directories\['active'\].*/\$config_directories\['active'\] = '$CONFIG_DIR\/active';/g" $SETTINGS_FILES_PATH
   sed -i -e "s/^\$config_directories\['staging'\].*/\$config_directories\['staging'\] = '$CONFIG_DIR\/staging';/g" $SETTINGS_FILES_PATH
 fi
-
-echo "Update permission ..."
-sudo chown -R www-data:www-data $STATIC_FILES_PATH
-sudo chown www:www-data $SETTINGS_FILES_PATH
-sudo chmod 664 $SETTINGS_FILES_PATH

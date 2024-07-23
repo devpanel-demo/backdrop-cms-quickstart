@@ -55,8 +55,3 @@ if [[ $(drush status bootstrap) == '' ]]; then
   drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" -y
   drush cc all
 fi
-
-#== Update permission
-echo "Update permision ..."
-sudo chown -R www:www-data $APP_ROOT
-sudo chown -R www-data:www-data $STATIC_FILES_PATH
