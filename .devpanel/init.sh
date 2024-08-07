@@ -15,12 +15,12 @@
 # For GNU Affero General Public License see <https://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
-#== If webRoot has not been difined, we will set appRoot to webRoot
+#== If webRoot has not been defined, we will set appRoot to webRoot
 if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
 fi
 STATIC_FILES_PATH="$WEB_ROOT/files"
-SETTINGS_FILES_PATH="$WEB_ROOT/settings.php"
+SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 
 
 #== Init Backdrop
@@ -39,7 +39,7 @@ sudo chown -R www:www $STATIC_FILES_PATH
 #== Create settings files
 if [[ ! -f "$SETTINGS_FILES_PATH" ]]; then
   echo "Create settings file ..."
-  sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.php $SETTINGS_FILES_PATH
+  sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.local.php $SETTINGS_FILES_PATH
 fi
 
 #== Generate hash salt
