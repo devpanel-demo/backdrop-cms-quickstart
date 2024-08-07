@@ -26,7 +26,7 @@ SETTINGS_FILES_PATH="$WEB_ROOT/settings.php"
 #== Init Backdrop
 if [[ ! -d "$APP_ROOT/core" ]]; then
   echo "Initial backdrop ..."
-  cd /tmp && curl -sLo backdrop.tar.gz https://github.com/backdrop/backdrop/tarball/1.24.1
+  cd /tmp && curl -sLo backdrop.tar.gz https://github.com/backdrop/backdrop/tarball/1.28.2
   tar xzf backdrop.tar.gz -C $APP_ROOT --strip-components=1
 fi
 
