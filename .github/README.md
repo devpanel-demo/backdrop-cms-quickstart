@@ -20,19 +20,19 @@ Backdrop CMS Quickstart repository.
 
 2. After launching Backdrop CMS, open DevPanel VS Code then open terminal and
    run the following commands:
-   ```bash
+   ```
    cd /var/www/html/
    git remote add <github_username> https://<github_username>:<github_personal_token>@github.com/<github_username>/<github_repo>
    ```
    It is best practice to generate a [GitHub personal access token](https://github.com/settings/tokens) rather than to use your GitHub password for `<github_personal_token>`. If you use a classic access token, it needs the `repo` permission. If you use a fine-grained access token, it needs read and write access to repository contents.
 
 3. Create a branch for your issue:
-   ```bash
+   ```
    git checkout -b <issue-branch>
    ```
 
 4. When you have committed your work, push the branch to your fork:
-   ```bash
+   ```
    git push -u <github_username> HEAD
    ```
 
