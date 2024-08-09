@@ -27,7 +27,7 @@ if [[ ! -n "$WEB_ROOT" ]]; then
 fi
 
 STATIC_FILES_PATH="$WEB_ROOT/files"
-SETTINGS_FILES_PATH="$WEB_ROOT/settings.php"
+SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 
 #== Extract static files
 if [[ $(drush status bootstrap) == '' ]]; then
@@ -50,7 +50,7 @@ fi
 #== Create settings file
 if [[ ! -f "$SETTINGS_FILES_PATH" ]]; then
   echo "Create settings file ..."
-  sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.php $SETTINGS_FILES_PATH
+  sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.local.php $SETTINGS_FILES_PATH
 fi
 
 
