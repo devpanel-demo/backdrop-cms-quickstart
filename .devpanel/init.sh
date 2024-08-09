@@ -30,17 +30,17 @@ if [[ ! -d "$APP_ROOT/core" ]]; then
   tar xzf backdrop.tar.gz -C $APP_ROOT --strip-components=1
 fi
 
+sudo mkdir -p $STATIC_FILES_PATH
+sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/active
+sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/staging
+sudo chmod 775 -R $STATIC_FILES_PATH
 
-# #Securing file permissions and ownership
-# #https://www.drupal.org/docs/security-in-drupal/securing-file-permissions-and-ownership
-[[ ! -d $STATIC_FILES_PATH ]] && sudo mkdir --mode 775 $STATIC_FILES_PATH || sudo chmod 775 -R $STATIC_FILES_PATH
-sudo chown -R www:www $STATIC_FILES_PATH
 
 #== Create settings files
-if [[ ! -f "$SETTINGS_FILES_PATH" ]]; then
-  echo "Create settings file ..."
-  sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.php $SETTINGS_FILES_PATH
-fi
+
+echo "Create settings file ..."
+sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.php $SETTINGS_FILES_PATH
+
 
 #== Generate hash salt
 echo 'Generate hash salt ...'
@@ -49,14 +49,21 @@ sudo sed -i -e "s/^\$settings\['hash_salt'\].*/\$settings\['hash_salt'\] = '$DRU
 
 
 #== Drush Site Install
-if [[ $(drush status bootstrap) == '' ]]; then
+if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;") == '' ]]; then
   echo "Site installing ..."
   cd $APP_ROOT
-  drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" -y
+  #Allow drush to overide files
+  sudo chown -R www:www $STATIC_FILES_PATH
+  drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://moixywwppe:mtfzheifvq@dp-hdavefus-do-user-15074262-0.c.db.ondigitalocean.com:25060/dpl-frqhovohvl" -y
+  drush user-password devpanel --password="devpanel"
   drush cc all
 fi
 
-#== Update permission
-echo "Update permision ..."
-sudo chown -R www:www $APP_ROOT
-sudo chown -R www:www $STATIC_FILES_PATH
+echo "Update permission ..."
+sudo chown -R www-data:www-data $STATIC_FILES_PATH
+sudo chown www:www $SETTINGS_FILES_PATH
+sudo chmod 644 $SETTINGS_FILES_PATH
+
+#== Revert file being override
+git checkout .gitignore
+git checkout README.md

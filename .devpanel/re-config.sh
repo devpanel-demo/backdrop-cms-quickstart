@@ -16,6 +16,12 @@
 # ----------------------------------------------------------------------
 
 #== If webRoot has not been difined, we will set appRoot to webRoot
+
+if [[ -f "$APP_ROOT/.devpanel/init.sh" ]]; then
+  bash $APP_ROOT/.devpanel/init.sh
+  exit;
+fi
+
 if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
 fi
