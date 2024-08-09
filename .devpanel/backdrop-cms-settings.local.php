@@ -199,6 +199,11 @@ $settings['hash_salt'] = '';
  */
 $settings['backdrop_drupal_compatibility'] = TRUE;
 
+/*
+* Define private files path using relative or absolute paths.
+*/
+$config['system.core']['file_private_path'] = 'files/private';
+
 /**
  * Display all warnings and errors for development.
  * Comment following line on production.
