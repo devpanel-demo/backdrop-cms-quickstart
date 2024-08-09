@@ -5,6 +5,20 @@
  */
 
 /**
+ * Add a settings.local.php file that contains settings specific to your local
+ * installation, or to any secondary environment (staging, development, etc).
+ *
+ * Typically used to specify different database connection information, to
+ * disable caching, JavaScript/CSS compression, re-routing of outgoing emails,
+ * Google Analytics, and other things that should not happen on development and
+ * testing sites.
+ *
+ * The settings.local.php file can be ignored in your Git repository, so any
+ * updates to settings.php can be pulled in without overwriting your local
+ * changes.
+ */
+
+/**
  * Database configuration:
  *
  * Most sites can configure their database by entering the connection string
@@ -184,3 +198,49 @@ $settings['hash_salt'] = '';
  * built for Backdrop.
  */
 $settings['backdrop_drupal_compatibility'] = TRUE;
+
+/**
+ * Display all warnings and errors for development.
+ * Comment following line on production.
+ */
+$config['system.core']['error_level'] = 'all';
+
+/**
+ * Change admin bar font size (default 0.75rem)
+ */
+// $config['admin_bar.settings']['font_size'] = '1.0rem';
+
+/**
+ * Additional settings for contrib modules
+ */
+
+/**
+ * Backup_migrate configuration changes.
+ * Adjust memory_limit, if backups fail due to an out-of-memory error.
+ * Use 256M or 512M or 1G when generating backups.
+ * Adjust PHP timeout, if backups fail with error "MySQL server has gone away".
+ * Increase PHP max timeout from default 1200 seconds (20 minutes).
+ */
+// $config['backup_migrate.settings']['backup_migrate_memory_limit'] = '256M' ;
+// $config['backup_migrate.settings']['backup_migrate_backup_max_time'] = 1200 ;
+
+/**
+ * Disable scheduled cron backups on dev, to enable on production set to FALSE.
+ * Note: this doesn't prevent manually running backups via the UI or with Drush.
+ * Backup_migrate: Don't run backups via cron.
+ */
+// $config['backup_migrate.settings']['backup_migrate_disable_cron'] = TRUE;
+
+/**
+ * For debugging Backup_migrate: Log verbose messages as the module is working.
+ */
+// $config['backup_migrate.settings']['backup_migrate_verbose'] = TRUE;
+
+/**
+ * Simple environment indicator (simplei) module.
+ * Changes color of the admin bar.
+ * Must include color and text to avoid warning message.
+ */
+// $settings['simple_environment_indicator'] = 'FireBrick PRD';
+// $settings['simple_environment_indicator'] = 'GoldenRod STG';
+// $settings['simple_environment_indicator'] = 'DodgerBlue DEV';
