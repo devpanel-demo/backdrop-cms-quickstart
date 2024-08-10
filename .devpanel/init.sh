@@ -33,6 +33,8 @@ fi
 sudo mkdir -p $STATIC_FILES_PATH
 sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/active
 sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/staging
+# Create private files directory
+sudo mkdir -p $STATIC_FILES_PATH/private
 sudo chmod 775 -R $STATIC_FILES_PATH
 
 
