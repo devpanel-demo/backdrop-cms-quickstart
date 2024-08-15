@@ -20,7 +20,7 @@ if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
 fi
 STATIC_FILES_PATH="$WEB_ROOT/files"
-SETTINGS_FILES_PATH="$WEB_ROOT/settings.php"
+SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 
 
 #== Init Backdrop
@@ -33,13 +33,15 @@ fi
 sudo mkdir -p $STATIC_FILES_PATH
 sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/active
 sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/staging
+# Create private files directory
+sudo mkdir -p $STATIC_FILES_PATH/private
 sudo chmod 775 -R $STATIC_FILES_PATH
 
 
 #== Create settings files
 
 echo "Create settings file ..."
-sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.php $SETTINGS_FILES_PATH
+sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.local.php $SETTINGS_FILES_PATH
 
 
 #== Generate hash salt
