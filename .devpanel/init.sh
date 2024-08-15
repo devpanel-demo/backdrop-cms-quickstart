@@ -54,7 +54,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
   cd $APP_ROOT
   #Allow drush to overide files
   sudo chown -R www:www $STATIC_FILES_PATH
-  drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://moixywwppe:mtfzheifvq@dp-hdavefus-do-user-15074262-0.c.db.ondigitalocean.com:25060/dpl-frqhovohvl" -y
+  drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" -y
   drush user-password devpanel --password="devpanel"
   drush cc all
 fi
