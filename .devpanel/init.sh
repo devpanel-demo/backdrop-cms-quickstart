@@ -24,10 +24,20 @@ SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 
 
 #== Init Backdrop
+
+# Using tar.gz download from source shows version as 1.x in .info files
+#if [[ ! -d "$APP_ROOT/core" ]]; then
+#  echo "Initial backdrop ..."
+#  cd /tmp && curl -sLo backdrop.tar.gz https://github.com/backdrop/backdrop/tarball/1.28.2
+#  tar xzf backdrop.tar.gz -C $APP_ROOT --strip-components=1
+#fi
+
+# Using zip download of release shows version and date in .info files
 if [[ ! -d "$APP_ROOT/core" ]]; then
   echo "Initial backdrop ..."
-  cd /tmp && curl -sLo backdrop.tar.gz https://github.com/backdrop/backdrop/tarball/1.28.2
-  tar xzf backdrop.tar.gz -C $APP_ROOT --strip-components=1
+  cd /tmp && wget https://github.com/backdrop/backdrop/releases/download/1.28.2/backdrop.zip
+  cd $APP_ROOT
+  unzip /tmp/backdrop.zip && rm -f backdrop.zip && mv -f ./backdrop/{.,}* . ; rm -rf backdrop
 fi
 
 sudo mkdir -p $STATIC_FILES_PATH
