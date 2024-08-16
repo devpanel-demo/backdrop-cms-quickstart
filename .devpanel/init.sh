@@ -35,9 +35,9 @@ SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 # Using zip download of release shows version and date in .info files
 if [[ ! -d "$APP_ROOT/core" ]]; then
   echo "Initial backdrop ..."
-  cd /tmp && wget https://github.com/backdrop/backdrop/releases/download/1.28.2/backdrop.zip
   cd $APP_ROOT
-  unzip /tmp/backdrop.zip && rm -f backdrop.zip && mv -f ./backdrop/{.,}* . ; rm -rf backdrop
+  curl -LJO https://github.com/backdrop/backdrop/releases/latest/download/backdrop.zip
+  unzip ./backdrop.zip && rm -f backdrop.zip && mv -f ./backdrop/{.,}* . ; rm -rf backdrop
 fi
 
 sudo mkdir -p $STATIC_FILES_PATH
