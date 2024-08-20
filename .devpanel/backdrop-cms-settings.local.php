@@ -205,10 +205,11 @@ $settings['backdrop_drupal_compatibility'] = TRUE;
 $config['system.core']['file_private_path'] = 'files/private';
 
 /**
- * Display all warnings and errors for development.
+ * Display all warnings and errors.
  * Comment following line on production.
+ * Uncomment following line for development.
  */
-$config['system.core']['error_level'] = 'all';
+// $config['system.core']['error_level'] = 'all';
 
 /**
  * Change admin bar font size (default 0.75rem)
