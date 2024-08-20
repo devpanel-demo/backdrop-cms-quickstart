@@ -29,11 +29,13 @@
 
 $databases['default']['default'] = array(
   'driver' => getenv('DB_DRIVER'),
-  'database' =>  getenv('DB_NAME'),
+  'database' => getenv('DB_NAME'),
   'username' => getenv('DB_USER') ,
   'password' => getenv('DB_PASSWORD'),
   'host' => getenv('DB_HOST'),
-  'port' => getenv('DB_PORT')
+  'port' => getenv('DB_PORT'),
+  'charset' => 'utf8mb4',
+  'collation' => 'utf8mb4_unicode_ci',
 );
 
 $database_prefix = '';
