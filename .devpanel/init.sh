@@ -76,6 +76,23 @@ sudo chown -R www-data:www-data $STATIC_FILES_PATH
 sudo chown www:www $SETTINGS_FILES_PATH
 sudo chmod 644 $SETTINGS_FILES_PATH
 
+#== Change permissions for UI downloads
+cd $APP_ROOT
+# Change ownership
+sudo chown -R www:www-data *
+# Change all directory permissions to 775 "rwxrwxr-x"
+sudo find * -type d -exec chmod ug=rwx,o=rx '{}' \;
+# Change all file permissions to 664 "rw-rw-r--"
+sudo find * -type f -exec chmod ug=rw,o=r '{}' \;
+# Change all .txt except robots .txt to 600 "rw-------"
+sudo find * -type f -iname "*.txt" -exec chmod u=rw,go= '{}' \;
+sudo chmod u=rw,go=r 'robots.txt' ;
+# Change all .md file permissions to 600 "rw-------"
+sudo find * -type f -iname "README.md" -exec chmod u=rw,go= '{}' \;
+# Change all .patch and *.orig files to 600 "rw-------"
+sudo find * -type f -iname "*.patch" -exec chmod u=rw,go= '{}' \;
+sudo find * -type f -iname "*.orig" -exec chmod u=rw,go= '{}' \;
+
 #== Revert file being override
 git checkout .gitignore
 git checkout README.md
