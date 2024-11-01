@@ -67,6 +67,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
   #Allow drush to overide files
   sudo chown -R www:www $STATIC_FILES_PATH
   drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" -y
+  mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE users SET name = 'devpanel' WHERE uid = 1;"
   drush user-password devpanel --password="devpanel"
   drush cc all
 fi
