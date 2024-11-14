@@ -15,6 +15,13 @@
 # For GNU Affero General Public License see <https://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
+if [[ ! -n "$APACHE_RUN_USER" ]]; then
+  export APACHE_RUN_USER=www-data  
+fi
+if [[ ! -n "$APACHE_RUN_GROUP" ]]; then
+  export APACHE_RUN_GROUP=www-data
+fi
+
 #== If webRoot has not been difined, we will set appRoot to webRoot
 if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
@@ -24,14 +31,6 @@ SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 
 
 #== Init Backdrop
-
-# Using tar.gz download from source shows version as 1.x in .info files
-#if [[ ! -d "$APP_ROOT/core" ]]; then
-#  echo "Initial backdrop ..."
-#  cd /tmp && curl -sLo backdrop.tar.gz https://github.com/backdrop/backdrop/tarball/1.28.2
-#  tar xzf backdrop.tar.gz -C $APP_ROOT --strip-components=1
-#fi
-
 # Using zip download of release shows version and date in .info files
 if [[ ! -d "$APP_ROOT/core" ]]; then
   echo "Initial backdrop ..."
@@ -65,7 +64,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
   echo "Site installing ..."
   cd $APP_ROOT
   #Allow drush to overide files
-  sudo chown -R www:www $STATIC_FILES_PATH
+  sudo chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $STATIC_FILES_PATH
   drush si --account-name=devpanel --account-pass=devpanel --db-url="mysql://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME" -y
   mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE users SET name = 'devpanel' WHERE uid = 1;"
   drush user-password devpanel --password="devpanel"
@@ -73,14 +72,13 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
 fi
 
 echo "Update permission ..."
-sudo chown -R www-data:www-data $STATIC_FILES_PATH
+sudo chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $STATIC_FILES_PATH
 sudo chown www:www $SETTINGS_FILES_PATH
 sudo chmod 644 $SETTINGS_FILES_PATH
 
 #== Change permissions for UI downloads
 cd $APP_ROOT
-# Change ownership
-sudo chown -R www:www-data *
+
 # Change all directory permissions to 775 "rwxrwxr-x"
 sudo find * -type d -exec chmod ug=rwx,o=rx '{}' \;
 # Change all file permissions to 664 "rw-rw-r--"

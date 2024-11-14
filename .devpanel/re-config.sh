@@ -15,13 +15,14 @@
 # For GNU Affero General Public License see <https://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
-#== If webRoot has not been difined, we will set appRoot to webRoot
-
-if [[ -f "$APP_ROOT/.devpanel/init.sh" ]]; then
-  bash $APP_ROOT/.devpanel/init.sh
-  exit;
+if [[ ! -n "$APACHE_RUN_USER" ]]; then
+  export APACHE_RUN_USER=www-data  
+fi
+if [[ ! -n "$APACHE_RUN_GROUP" ]]; then
+  export APACHE_RUN_GROUP=www-data
 fi
 
+#== If webRoot has not been difined, we will set appRoot to webRoot
 if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
 fi
@@ -71,14 +72,12 @@ if [[ $CONFIG_DIR != '' ]]; then
 fi
 
 echo "Update permission ..."
-sudo chown -R www:www $STATIC_FILES_PATH
+sudo chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $STATIC_FILES_PATH
 sudo chown www:www $SETTINGS_FILES_PATH
 sudo chmod 664 $SETTINGS_FILES_PATH
 
 #== Change permissions for UI downloads
 cd $APP_ROOT
-# Change ownership
-sudo chown -R www:www-data *
 # Change all directory permissions to 775 "rwxrwxr-x"
 sudo find * -type d -exec chmod ug=rwx,o=rx '{}' \;
 # Change all file permissions to 664 "rw-rw-r--"
