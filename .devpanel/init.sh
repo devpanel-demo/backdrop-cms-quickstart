@@ -31,24 +31,27 @@ SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 
 
 #== Init Backdrop
+cd $APP_ROOT;
+# Delete all file before init new site
+sudo rm -rf $APP_ROOT/core
+sudo rm -rf $APP_ROOT/files/config_*
 # Using zip download of release shows version and date in .info files
 if [[ ! -d "$APP_ROOT/core" ]]; then
-  echo "Initial backdrop ..."
-  cd /tmp && wget https://github.com/backdrop/backdrop/releases/download/1.29.1/backdrop.zip
-  cd $APP_ROOT
-  unzip /tmp/backdrop.zip && rm -f backdrop.zip && mv -f ./backdrop/{.,}* . ; rm -rf backdrop
+echo "Initial backdrop ..."
+cd /tmp && wget https://github.com/backdrop/backdrop/releases/download/1.29.1/backdrop.zip
+cd $APP_ROOT
+unzip /tmp/backdrop.zip && rm -f backdrop.zip && rsync -av --remove-source-files ./backdrop/. . ; rm -rf backdrop
 fi
 
+# Prepare dir to install backdrop
 sudo mkdir -p $STATIC_FILES_PATH
 sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/active
 sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/staging
-# Create private files directory
 sudo mkdir -p $STATIC_FILES_PATH/private
 sudo chmod 775 -R $STATIC_FILES_PATH
 
 
 #== Create settings files
-
 echo "Create settings file ..."
 sudo cp $APP_ROOT/.devpanel/backdrop-cms-settings.local.php $SETTINGS_FILES_PATH
 
@@ -69,6 +72,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
   mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE users SET name = 'devpanel' WHERE uid = 1;"
   drush user-password devpanel --password="devpanel"
   drush cc all
+  bee cron
 fi
 
 echo "Update permission ..."

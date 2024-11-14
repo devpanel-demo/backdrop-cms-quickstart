@@ -31,7 +31,7 @@ STATIC_FILES_PATH="$WEB_ROOT/files"
 SETTINGS_FILES_PATH="$WEB_ROOT/settings.local.php"
 
 #== Extract static files
-if [[ $(drush status bootstrap) == '' ]]; then
+if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;") == '' ]]; then
   if [[ -f "$APP_ROOT/.devpanel/dumps/files.tgz" ]]; then
     echo  'Extract static files ...'
     sudo mkdir -p $STATIC_FILES_PATH
@@ -75,6 +75,8 @@ echo "Update permission ..."
 sudo chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP $STATIC_FILES_PATH
 sudo chown www:www $SETTINGS_FILES_PATH
 sudo chmod 664 $SETTINGS_FILES_PATH
+bee cron
+drush cc all
 
 #== Change permissions for UI downloads
 cd $APP_ROOT
