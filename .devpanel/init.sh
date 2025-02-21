@@ -38,7 +38,7 @@ sudo rm -rf $APP_ROOT/files/config_*
 # Using zip download of release shows version and date in .info files
 if [[ ! -d "$APP_ROOT/core" ]]; then
 echo "Initial backdrop ..."
-cd /tmp && wget https://github.com/backdrop/backdrop/releases/download/1.29.1/backdrop.zip
+cd /tmp && wget https://github.com/backdrop/backdrop/releases/download/1.30.1/backdrop.zip
 cd $APP_ROOT
 unzip /tmp/backdrop.zip && rm -f backdrop.zip && rsync -av --remove-source-files ./backdrop/. . ; rm -rf backdrop
 fi
