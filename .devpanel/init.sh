@@ -45,8 +45,8 @@ fi
 
 # Prepare dir to install backdrop
 sudo mkdir -p $STATIC_FILES_PATH
-sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/active
-sudo mkdir -p $STATIC_FILES_PATH/config_$DP_APP_ID/staging
+sudo mkdir -p $STATIC_FILES_PATH/config_backdrop_cms/active
+sudo mkdir -p $STATIC_FILES_PATH/config_backdrop_cms/staging
 sudo mkdir -p $STATIC_FILES_PATH/private
 sudo chmod 775 -R $STATIC_FILES_PATH
 

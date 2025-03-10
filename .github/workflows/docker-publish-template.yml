@@ -12,7 +12,6 @@ jobs:
       webserver:
         image: devpanel/php:8.2-base
         env:
-          DP_APP_ID: 'backdrop-cms'
           APP_ROOT: '/var/www/html'        
           WEB_ROOT: '/var/www/html'
           CODES_USER_DATA_DIR: '/var/www/html/.vscode'
