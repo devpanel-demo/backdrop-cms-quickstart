@@ -12,7 +12,6 @@ jobs:
       webserver:
         image: devpanel/php:8.2-base
         env:
-          DP_APP_ID: 'backdrop-cms'
           APP_ROOT: '/var/www/html'        
           WEB_ROOT: '/var/www/html'
           CODES_USER_DATA_DIR: '/var/www/html/.vscode'
@@ -57,14 +56,14 @@ jobs:
       run: |
         echo "PREPARE DIR FOR INSTALL"
         docker exec ${{ job.services.webserver.id }} bash -c "sudo rm -rf \$APP_ROOT && sudo mkdir -p \$APP_ROOT"
-        docker exec ${{ job.services.webserver.id }} bash -c "sudo cp -r /app/. \$APP_ROOT/." 
-        docker exec ${{ job.services.webserver.id }} bash -c "sudo chown -R www:www \$APP_ROOT"
+        docker exec ${{ job.services.webserver.id }} bash -c "sudo cp -r /app/. \$APP_ROOT/."
+        docker exec ${{ job.services.webserver.id }} bash -c "sudo chown -R www:www \$APP_ROOT && chmod +x \$APP_ROOT/.devpanel/*.sh"
         docker exec ${{ job.services.webserver.id }} bash -c "export && cd \$APP_ROOT && ls -al"
         echo "INSTALL CUSTOM PACKAGE"
         docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/custom_package_installer.sh"
         echo "INSTALL DRUPAL"
         docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/init.sh"
-        docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && ls -al"
+        docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && ls -al files"
 
     - name: Login to Docker Hub
       uses: docker/login-action@v2

@@ -77,8 +77,8 @@ $database_prefix = '';
  * $config_directories['staging'] = '/home/myusername/config/staging';
  * @endcode
  */
-$config_directories['active'] = 'files/config_' . getenv('DP_APP_ID') . '/active';
-$config_directories['staging'] = 'files/config_' . getenv('DP_APP_ID') . '/staging';
+$config_directories['active'] = 'files/config_backdrop_cms/active';
+$config_directories['staging'] = 'files/config_backdrop_cms/staging';
 
 /**
  * Skip the configuration staging directory cleanup
