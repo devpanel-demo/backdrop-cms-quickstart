@@ -15,6 +15,7 @@ jobs:
           DP_APP_ID: 'backdrop-cms'
           APP_ROOT: '/var/www/html'        
           WEB_ROOT: '/var/www/html'
+          DP_APP_ID: 'backdrop_cms'
           CODES_USER_DATA_DIR: '/var/www/html/.vscode'
           CODES_WORKING_DIR: '/var/www/html'
           APACHE_RUN_USER: 'www'
