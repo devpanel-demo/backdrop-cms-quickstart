@@ -27,10 +27,15 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
   fi
 fi
 
-if [[ -n "$DB_SYNC_VOL" ]]; then
+if [[ -n "${DB_SYNC_VOL:-}" ]]; then
   if [[ ! -f "/var/www/build/.devpanel/init-container.sh" ]]; then
-    echo  'Sync volume...'
-    sudo chown -R 1000:1000 /var/www/build 
-    rsync -av --delete --delete-excluded $APP_ROOT/ /var/www/build
+    sudo rm -rf /var/www/build/lost+found
+    echo 'Sync volume...'
+    sudo rsync -a --delete --ignore-existing --exclude .devpanel/dumps $APP_ROOT/ /var/www/build
   fi
 fi
+
+#== Fix ownership for strict permissions.
+echo
+echo 'Fix ownership for strict permissions.'
+sudo chown -R ${APACHE_RUN_USER:=www-data}:${APACHE_RUN_GROUP:=www-data} /var/www/build/web/sites/default/files /var/www/build/private /var/www/build/config/sync
