@@ -26,7 +26,7 @@ $database = array(
  *
  * By default configuration will be stored in the filesystem, using the
  * directories specified in the $config_directories setting. Optionally,
- * configuration can be store in the database instead of the filesystem.
+ * configuration can be stored in the database instead of the filesystem.
  * Switching this option on a live site is not currently supported without some
  * manual work.
  *
@@ -113,7 +113,7 @@ $settings['restore_free_access'] = FALSE;
  * This can also be set to a value of FALSE to disable the backup capability,
  * for sites that have an alternative backup mechanism in place.
  */
-$settings['backup_directory'] = 'files/backups_0049233e5abef479f6142f253449fe80';
+$settings['backup_directory'] = '';
 
 /**
  * Salt for one-time login links and cancel links, form tokens, etc.
