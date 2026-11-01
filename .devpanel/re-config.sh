@@ -43,7 +43,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
     echo  'Extract mysql files ...'
     SQLFILE=$(tar tzf $APP_ROOT/.devpanel/dumps/db.sql.tgz)
     tar xzf "$APP_ROOT/.devpanel/dumps/db.sql.tgz" -C /tmp/
-    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < /tmp/$SQLFILE
+    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME --init-command="SET SESSION sql_require_primary_key=0;" < /tmp/$SQLFILE
     rm /tmp/$SQLFILE
   fi
 fi
